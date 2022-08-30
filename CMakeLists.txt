@@ -34,6 +34,7 @@ option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." ON)
 option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." ON)
 option(RAPIDJSON_BUILD_THIRDPARTY_GTEST
     "Use gtest installation in `thirdparty/gtest` by default if available" OFF)
+option(RAPIDJSON_BUILD_SANDBOX "Build my own sandbox practice examples" ON)
 
 option(RAPIDJSON_BUILD_CXX11 "Build rapidjson with C++11" ON)
 option(RAPIDJSON_BUILD_CXX17 "Build rapidjson with C++17" OFF)
@@ -169,6 +170,10 @@ add_custom_command(TARGET travis_doc
 
 if(RAPIDJSON_BUILD_EXAMPLES)
     add_subdirectory(example)
+endif()
+
+if(RAPIDJSON_BUILD_SANDBOX)
+    add_subdirectory(Sandbox)
 endif()
 
 if(RAPIDJSON_BUILD_TESTS)
