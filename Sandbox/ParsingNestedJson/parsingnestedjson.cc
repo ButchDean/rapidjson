@@ -5,7 +5,9 @@
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 
-void ReadJsonRaw(std::string& buffer) {
+void ReadJsonRaw() {
+
+    std::string buffer;
     std::fstream jsonFile;
     jsonFile.open("playingcardsdata.json", std::ios::in);
 
@@ -43,7 +45,7 @@ void ReadJsonRaw(std::string& buffer) {
 }
 
 int main() {
-    std::string bufr;
+    ReadJsonRaw();
 
     return 0;
 }
