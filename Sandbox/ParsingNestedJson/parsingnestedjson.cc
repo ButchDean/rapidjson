@@ -5,9 +5,8 @@
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 
-void ReadJsonRaw() {
+void ReadJsonRaw(std::string& buffer) {
 
-    std::string buffer;
     std::fstream jsonFile;
     jsonFile.open("playingcardsdata.json", std::ios::in);
 
@@ -20,20 +19,26 @@ void ReadJsonRaw() {
             buffer += line;
         }
         jsonFile.close();
-        std::printf("%s\n", buffer.c_str());
     } else {
         std::perror("Could not open .json data file");
     }
+}
+
+int main() {
+    std::string bufr;
+
+    ReadJsonRaw(bufr);
+
+    std::printf("%s\n", bufr.c_str());
 
     // Process the JSON mimfied buffer
-    char charBuf[buffer.size()];
-    memcpy(charBuf, buffer.c_str(), buffer.size());
+    char charBuf[bufr.size()];
+    memcpy(charBuf, bufr.c_str(), bufr.size());
 
     rapidjson::Document doc;
 
     if(doc.Parse(charBuf).HasParseError()) {
-        std::perror("Failed to parse the json buffer");
-        return;			
+        std::perror("Failed to parse the json buffer");		
     }
 
     std::puts("Successfully parsed JSON into object.");
@@ -41,11 +46,7 @@ void ReadJsonRaw() {
     std::puts("====================");
     rapidjson::Value& s = doc["1"];
     std::printf("%s\n", s.GetString());
-    std::puts("====================");
-}
-
-int main() {
-    ReadJsonRaw();
+    std::puts("====================");    
 
     return 0;
 }
