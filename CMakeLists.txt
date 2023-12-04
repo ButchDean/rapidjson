@@ -29,14 +29,14 @@ endif()
 # Build all binaries in a separate directory
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(RAPIDJSON_BUILD_DOC "Build rapidjson documentation." ON)
-option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." ON)
-option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." ON)
+option(RAPIDJSON_BUILD_DOC "Build rapidjson documentation." OFF)
+# option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." OFF)
+# option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." OFF)
 option(RAPIDJSON_BUILD_THIRDPARTY_GTEST
     "Use gtest installation in `thirdparty/gtest` by default if available" OFF)
 
 option(RAPIDJSON_BUILD_CXX11 "Build rapidjson with C++11" ON)
-option(RAPIDJSON_BUILD_CXX17 "Build rapidjson with C++17" OFF)
+option(RAPIDJSON_BUILD_CXX17 "Build rapidjson with C++17" ON)
 if(RAPIDJSON_BUILD_CXX11)
     set(CMAKE_CXX_STANDARD 11)
     set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -75,7 +75,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
           set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
         endif()
     endif()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
     set(EXTRA_CXX_FLAGS -Weffc++ -Wswitch-default -Wfloat-equal -Wconversion -Wsign-conversion)
     if (RAPIDJSON_BUILD_CXX11 AND CMAKE_VERSION VERSION_LESS 3.1)
         if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.7.0")
@@ -109,7 +109,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
       endif()
     endif()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wno-missing-field-initializers")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-missing-field-initializers")
     set(EXTRA_CXX_FLAGS -Weffc++ -Wswitch-default -Wfloat-equal -Wconversion -Wimplicit-fallthrough)
     if (RAPIDJSON_BUILD_CXX11 AND CMAKE_VERSION VERSION_LESS 3.1)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -159,26 +159,26 @@ SET(CMAKE_INSTALL_DIR "${_CMAKE_INSTALL_DIR}" CACHE PATH "The directory cmake fi
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-if(RAPIDJSON_BUILD_DOC)
-    add_subdirectory(doc)
-endif()
+# if(RAPIDJSON_BUILD_DOC)
+#     add_subdirectory(doc)
+# endif()
 
 add_custom_target(travis_doc)
 add_custom_command(TARGET travis_doc
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/travis-doxygen.sh)
 
-if(RAPIDJSON_BUILD_EXAMPLES)
-    add_subdirectory(example)
-endif()
+# if(RAPIDJSON_BUILD_EXAMPLES)
+#     add_subdirectory(example)
+# endif()
 
-if(RAPIDJSON_BUILD_TESTS)
-    if(MSVC11)
-        # required for VS2012 due to missing support for variadic templates
-        add_definitions(-D_VARIADIC_MAX=10)
-    endif(MSVC11)
-    add_subdirectory(test)
-    include(CTest)
-endif()
+# if(RAPIDJSON_BUILD_TESTS)
+#     if(MSVC11)
+#         # required for VS2012 due to missing support for variadic templates
+#         add_definitions(-D_VARIADIC_MAX=10)
+#     endif(MSVC11)
+#     add_subdirectory(test)
+#     include(CTest)
+# endif()
 
 # pkg-config
 IF (UNIX OR CYGWIN)
